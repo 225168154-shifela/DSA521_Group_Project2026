@@ -1,9 +1,5 @@
 import java.util.Scanner;
 
-/**
- This class is the integration layer. The data structures and algorithms
- remain in separate classes so group members can work on them independently.
- */
 public class ServiceCentreSystem {
 
     private final Scanner scanner;
