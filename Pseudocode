@@ -1,0 +1,248 @@
+E1. Queue (ServiceQueue.java)
+enqueue(student)
+    CREATE newNode containing student
+    IF isEmpty() THEN
+        front = newNode
+        rear = newNode
+    ELSE
+        rear.next = newNode        
+        rear = newNode             
+    END IF
+    size = size + 1
+END
+
+dequeue()
+    IF isEmpty() THEN
+        RETURN null
+    END IF
+    served = front.data            
+    front = front.next             
+    IF front == null THEN
+        rear = null                
+    END IF
+    size = size - 1
+    RETURN served
+END
+
+peek()
+    IF isEmpty() THEN
+        RETURN null
+    END IF
+    RETURN front.data              
+END
+
+isEmpty()
+    RETURN (front == null)
+END
+
+displayQueue()
+    IF isEmpty() THEN
+        DISPLAY "Waiting queue is empty."
+    ELSE
+        current = front
+        WHILE current != null
+            DISPLAY current.data
+            current = current.next
+        END WHILE
+    END IF
+END
+E2. Stack and Postfix Evaluation (PostFixEvaluation-2.java)
+push(value)
+    top = top + 1
+    arr[top] = value
+END
+
+pop()
+    value = arr[top]
+    top = top - 1
+    RETURN value
+END
+
+peek()
+    RETURN arr[top]                
+END
+
+evaluatePostfix(expression)
+    CREATE an empty stack
+    tokens = split expression into items separated by spaces
+    FOR each token in tokens DO
+        IF token is a number THEN
+            PUSH token (as an integer) onto the stack
+        ELSE                            
+            b = POP from stack          
+            a = POP from stack          
+            IF token is "+" THEN result = a + b
+            ELSE IF token is "-" THEN result = a - b
+            ELSE IF token is "*" THEN result = a * b
+            ELSE IF token is "/" THEN result = a / b
+            END IF
+            PUSH result onto the stack
+        END IF
+    END FOR
+    RETURN POP from stack               
+END
+E3. Singly Linked List (StudentServiceList.java)
+insertAtBeginning(student)
+    CREATE newNode containing student
+    newNode.next = head            
+    head = newNode                 
+    size = size + 1
+END
+
+insertAtEnd(student)
+    CREATE newNode containing student
+    IF head == null THEN
+        head = newNode             
+    ELSE
+        current = head
+        WHILE current.next != null 
+            current = current.next
+        END WHILE
+        current.next = newNode
+    END IF
+    size = size + 1
+END
+
+insertAtPosition(student, position)     
+    IF position < 1 OR position > size + 1 THEN
+        RETURN false               
+    END IF
+    IF position == 1 THEN
+        insertAtBeginning(student)
+        RETURN true
+    END IF
+    IF position == size + 1 THEN
+        insertAtEnd(student)
+        RETURN true
+    END IF
+    CREATE newNode containing student
+    previous = head
+    FOR i = 1 TO position - 2          
+        previous = previous.next
+    END FOR
+    newNode.next = previous.next       
+    previous.next = newNode             
+    size = size + 1
+    RETURN true
+END
+
+deleteStudent(studentNumber)
+    IF head == null THEN
+        RETURN null                  
+    END IF
+    IF head's student number == studentNumber THEN
+        removed = head.data
+        head = head.next             
+        size = size - 1
+        RETURN removed
+    END IF
+    previous = head
+    current = head.next
+    WHILE current != null
+        IF current's student number == studentNumber THEN
+            removed = current.data
+            previous.next = current.next   
+            size = size - 1
+            RETURN removed
+        END IF
+        previous = current
+        current = current.next
+    END WHILE
+    RETURN null                      
+END
+
+searchStudent(studentNumber)
+    current = head
+    WHILE current != null
+        IF current's student number == studentNumber THEN
+            RETURN current.data      
+        END IF
+        current = current.next
+    END WHILE
+    RETURN null                      
+END
+
+displayStudents()
+    IF head == null THEN
+        DISPLAY "No student service records found."
+    ELSE
+        current = head
+        WHILE current != null
+            DISPLAY current.data
+            current = current.next
+        END WHILE
+    END IF
+END
+E4. Sorting Algorithms (SortingAlgorithms.java)
+selectionSort(array)
+    FOR i = 0 TO length(array) - 2 DO
+        minIndex = i
+        FOR j = i + 1 TO length(array) - 1 DO
+            comparisons = comparisons + 1
+            IF array[j] < array[minIndex] THEN
+                minIndex = j         
+            END IF
+        END FOR
+        IF minIndex != i THEN
+            SWAP array[i] AND array[minIndex]
+            swaps = swaps + 1
+        END IF
+    END FOR
+END
+
+insertionSort(array)
+    FOR i = 1 TO length(array) - 1 DO
+        key = array[i]
+        j = i - 1
+        WHILE j >= 0 DO
+            comparisons = comparisons + 1
+            IF array[j] > key THEN
+                array[j + 1] = array[j]    
+                shifts = shifts + 1
+                j = j - 1
+            ELSE
+                BREAK                      
+            END IF
+        END WHILE
+        array[j + 1] = key                 
+    END FOR
+END
+
+mergeSort(array, left, right)
+    IF left >= right THEN
+        RETURN                        
+    END IF
+    middle = (left + right) / 2
+    mergeSort(array, left, middle)       
+    mergeSort(array, middle + 1, right)  
+    merge(array, left, middle, right)    
+END
+
+merge(array, left, middle, right)
+    COPY left half and right half into a temporary array,
+    each time taking the SMALLER front value (count one comparison per take)
+    COPY any remaining values from the half that is not yet empty
+    COPY the merged values back from the temporary array into array
+END
+
+quickSort(array, low, high)
+    IF low < high THEN
+        pivotIndex = partition(array, low, high)
+        quickSort(array, low, pivotIndex - 1)     
+        quickSort(array, pivotIndex + 1, high)    
+    END IF
+END
+
+partition(array, low, high)
+    pivot = array[high]              
+    i = low - 1
+    FOR j = low TO high - 1 DO
+        comparisons = comparisons + 1
+        IF array[j] <= pivot THEN
+            i = i + 1
+            SWAP array[i] AND array[j]      
+        END IF
+    END FOR
+    SWAP array[i + 1] AND array[high]      
+    RETURN i + 1
+END
